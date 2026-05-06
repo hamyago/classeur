@@ -1,0 +1,78 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isAuth() {
+      return request.auth != null;
+    }
+    function isOwner(uid) {
+      return isAuth() && request.auth.uid == uid;
+    }
+    function isAdmin() {
+      return isAuth() && get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    // Users
+    match /users/{uid} {
+      allow read: if isAuth();
+      allow create: if isOwner(uid);
+      allow update: if isOwner(uid) || isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // Providers
+    match /providers/{uid} {
+      allow read: if isAuth();
+      allow create: if isOwner(uid);
+      allow update: if isOwner(uid) || isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // Interventions
+    match /interventions/{id} {
+      allow read: if isAuth() && (
+        resource.data.user_id == request.auth.uid ||
+        resource.data.provider_id == request.auth.uid ||
+        isAdmin()
+      );
+      allow create: if isAuth();
+      allow update: if isAuth() && (
+        resource.data.user_id == request.auth.uid ||
+        resource.data.provider_id == request.auth.uid ||
+        isAdmin()
+      );
+      // Allow providers to read pending interventions to accept
+      allow list: if isAuth();
+    }
+
+    // Reviews
+    match /reviews/{id} {
+      allow read: if isAuth();
+      allow create: if isAuth() && request.resource.data.from_user_id == request.auth.uid;
+      allow update, delete: if false;
+    }
+
+    // Transactions
+    match /transactions/{id} {
+      allow read: if isAuth() && (
+        resource.data.user_id == request.auth.uid ||
+        resource.data.provider_id == request.auth.uid ||
+        isAdmin()
+      );
+      allow create: if isAdmin();
+      allow update, delete: if isAdmin();
+    }
+
+    // Config (read-only for clients)
+    match /config/{doc} {
+      allow read: if isAuth();
+      allow write: if isAdmin();
+    }
+
+    // Admins (no client access)
+    match /admins/{uid} {
+      allow read, write: if isAdmin();
+    }
+  }
+}

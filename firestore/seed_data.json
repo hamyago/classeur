@@ -1,0 +1,25 @@
+{
+  "_comment": "Données initiales pour le projet Firebase Auto-SOS",
+  "config": {
+    "pricing": {
+      "commission_rate": 0.15,
+      "km_rate": 300,
+      "search_radius_km": 3
+    },
+    "subscriptions": {
+      "monthly_price": 5000,
+      "annual_price": 50000,
+      "currency": "FCFA"
+    }
+  },
+  "service_types": [
+    { "id": "mechanic",   "name": "Mécanicien",        "icon": "🔧", "base_price": 5000,  "color": "#FF6B35" },
+    { "id": "towing",     "name": "Remorquage",         "icon": "🚛", "base_price": 10000, "color": "#4299E1" },
+    { "id": "tire",       "name": "Vulcanisateur",      "icon": "🔩", "base_price": 3000,  "color": "#48BB78" },
+    { "id": "electrical", "name": "Électricien auto",   "icon": "⚡", "base_price": 6000,  "color": "#F6AD55" },
+    { "id": "battery",    "name": "Batterie",           "icon": "🔋", "base_price": 4000,  "color": "#9F7AEA" },
+    { "id": "fuel",       "name": "Carburant",          "icon": "⛽", "base_price": 2000,  "color": "#FC8181" },
+    { "id": "locksmith",  "name": "Serrurier auto",     "icon": "🔑", "base_price": 5000,  "color": "#68D391" },
+    { "id": "other",      "name": "Autre",              "icon": "🛠️", "base_price": 5000,  "color": "#63B3ED" }
+  ]
+}
