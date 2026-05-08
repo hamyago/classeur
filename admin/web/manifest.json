@@ -1,0 +1,12 @@
+{
+  "name": "Auto-SOS Admin",
+  "short_name": "Admin",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#1A1A2E",
+  "theme_color": "#FF6B35",
+  "description": "Auto-SOS Admin Dashboard — Oyop MT",
+  "orientation": "landscape",
+  "prefer_related_applications": false,
+  "icons": []
+}
